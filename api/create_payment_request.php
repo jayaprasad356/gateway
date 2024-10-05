@@ -84,9 +84,9 @@ if (isset($tokenData['access_token'])) {
         'buyer_name' => $buyer_name,
         'email' => $email,
         'phone' => $phone,
-        'redirect_url' => 'https://www.google.co.in/',
+        'redirect_url' => 'https://gmix.graymatterworks.com/path/to/serid/123',
         'send_email' => 'True',
-        'webhook' => 'https://www.google.co.in/',
+        'webhook' => 'https://gateway.graymatterworks.com/api/webhook.php',
         'allow_repeated_payments' => 'False',
     ];
 
