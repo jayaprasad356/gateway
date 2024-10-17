@@ -11,23 +11,28 @@ if (isset($incomingData['status']) && $incomingData['status'] === 'Credit') {
     
     // Parse the 'purpose' field and assign to respective variables
     if (isset($incomingData['purpose'])) {
+        // Split the incoming purpose data
         $purposeParts = explode('-', $incomingData['purpose']);
-        
+
+        // Assign values based on the number of parts
         $user_id = isset($purposeParts[0]) ? $purposeParts[0] : null;
         $address_id = isset($purposeParts[1]) ? $purposeParts[1] : null;
         $product_id = isset($purposeParts[2]) ? $purposeParts[2] : null;
         $quantity = isset($purposeParts[3]) ? $purposeParts[3] : null;
+        $staff_id = isset($purposeParts[4]) ? $purposeParts[4] : null;
 
         // Log the parsed data
-        $logData .= "Parsed Purpose Data: \n";
+        $logData = "Parsed Purpose Data:\n";
         $logData .= "User ID: $user_id\n";
         $logData .= "Address ID: $address_id\n";
         $logData .= "Product ID: $product_id\n";
         $logData .= "Quantity: $quantity\n";
+        if ($staff_id !== null) {
+            $logData .= "Staff ID: $staff_id\n";
+        }
 
-        // Call the external API with form data if status is Credit
+        // Prepare API form data
         $apiUrl = 'https://gmix.graymatterworks.com/api/place_order';
-
         $formData = [
             'user_id' => $user_id,
             'address_id' => $address_id,
@@ -35,6 +40,12 @@ if (isset($incomingData['status']) && $incomingData['status'] === 'Credit') {
             'payment_mode' => 'Prepaid',
             'quantity' => $quantity
         ];
+
+        // Include staff_id only if present
+        if ($staff_id !== null) {
+            $formData['staff_id'] = $staff_id;
+        }
+
 
         // Initialize cURL
         $ch = curl_init($apiUrl);
